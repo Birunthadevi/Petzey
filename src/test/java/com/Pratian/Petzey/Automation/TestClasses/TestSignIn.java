@@ -8,22 +8,26 @@ import org.testng.annotations.Test;
 
 import com.Pratian.Petzey.Automation.FileHandling.PropertyManager;
 import com.Pratian.Petzey.Automation.PageObjects.Home;
-import com.Pratian.Petzey.Automation.PageObjects.SignIn;
+import com.Pratian.Petzey.Automation.PageObjects.LogIn;
 
 public class TestSignIn extends BaseTest {
 
 	@Test(dataProvider = "signIn")
-	public void signInWithValidCredentials(String userName, String password) throws IOException
+	public void logInWithInvalidCredentials(String userName, String password) throws IOException
 	{
 		/*Check whether or not user is able to sign in into Petzey
-		with valid credentials*/
+		with Invalid credentials*/
 		
 		driver.get(PropertyManager.getProperty("url.app"));
-		SignIn signIn= new SignIn(driver);
-		signIn.provideUserName(userName);
-		signIn.providePassword(password);
-		Home home= signIn.clickSignInButton(driver);
-		Assert.assertEquals(home.getUserName().trim(), "Netravati Alagundi");			
+		//load the home page and navigate to the login screen
+		Home home=new Home(driver);		
+		LogIn logIn= home.clickSignIn();
+		
+		//Enter the username and password
+		logIn.provideUserName(userName);
+		logIn.providePassword(password);
+		logIn.clickSignInButton(driver);
+		Assert.assertEquals(logIn.getErrorMessages().trim(), "WRONG CREDENTIALS, PLEASE TRY AGAIN!");			
 	}
 	
 
@@ -32,21 +36,10 @@ public class TestSignIn extends BaseTest {
 
 		return new Object[][] {				
 
-			{"netravati@pratian.com","password@123"} 	
+			{"brintha@gmail.com","password@123"} 	
 
 		};
 	}
 
-	//	@Test
-	//	public void signInWithInvalidCredentials(String userName, String password)
-	//	{
-	//		
-	//	}
-	//	
-	//	@Test
-	//	public void signInWithoutCredentials()
-	//	{
-	//		
-	//	}
 
 }

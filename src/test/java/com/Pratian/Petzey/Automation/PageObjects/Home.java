@@ -6,19 +6,19 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 public class Home extends BasePage {
-
-	@FindBy(xpath = "//*[@id=\"logoutForm\"]/div/a/span[2]/span")
-	WebElement userName;
 	
+	@FindBy(xpath = "//*[@id=\"site-header\"]/div/nav/div/ul/li[7]/a")
+	WebElement logIn;
+	
+		
 	public Home(WebDriver driver) {
 		super(driver);
-		PageFactory.initElements(driver, this);
-		// TODO Auto-generated constructor stub
+		PageFactory.initElements(driver, this);		
 	}
 	
-	public String getUserName()
+	public LogIn clickSignIn()
 	{
-		return userName.getText();
+		return new LogIn(driver);
 	}
 
 }
